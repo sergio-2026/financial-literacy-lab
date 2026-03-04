@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Financial Literacy Lab LLC</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{--ink:#111;--muted:#6b7280;--bg:#fafaf9;--card:#fff;--border:#e5e5e3;--accent:#1a5c3a}
+  html{scroll-behavior:smooth}
+  body{font-family:'Georgia',serif;background:var(--bg);color:var(--ink);line-height:1.7}
+
+  /* NAV */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:1.2rem 6%;backdrop-filter:blur(12px);background:rgba(250,250,249,.9);border-bottom:1px solid var(--border)}
+  .logo{display:flex;flex-direction:column;line-height:1.2}
+  .logo-main{font-size:1rem;letter-spacing:.06em;text-transform:uppercase;font-weight:400}
+  .logo-sub{font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+  .nav-links{display:flex;gap:2rem;list-style:none}
+  .nav-links a{text-decoration:none;color:var(--muted);font-family:'Helvetica Neue',sans-serif;font-size:.82rem;letter-spacing:.04em;transition:color .2s}
+  .nav-links a:hover{color:var(--ink)}
+  .nav-cta{font-family:'Helvetica Neue',sans-serif;font-size:.78rem;letter-spacing:.07em;text-transform:uppercase;padding:.55rem 1.4rem;background:var(--accent);color:#fff;border:none;cursor:pointer;transition:opacity .2s}
+  .nav-cta:hover{opacity:.85}
+
+  /* HERO */
+  .hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:9rem 6% 6rem}
+  .hero-eyebrow{font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.6rem}
+  .hero h1{font-size:clamp(2.4rem,5.5vw,4.6rem);font-weight:400;line-height:1.15;max-width:780px;margin-bottom:1rem;letter-spacing:-.01em}
+  .hero h1 em{font-style:italic;color:var(--muted)}
+  .hero-tagline{font-family:'Helvetica Neue',sans-serif;font-size:1rem;color:var(--muted);max-width:500px;margin-bottom:2.8rem;line-height:1.75}
+  .hero-actions{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center}
+  .btn-primary{font-family:'Helvetica Neue',sans-serif;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;padding:.85rem 2.2rem;background:var(--accent);color:#fff;border:none;cursor:pointer;transition:opacity .2s}
+  .btn-primary:hover{opacity:.82}
+  .btn-secondary{font-family:'Helvetica Neue',sans-serif;font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;padding:.85rem 2.2rem;background:transparent;color:var(--ink);border:1px solid var(--border);cursor:pointer;transition:border-color .2s}
+  .btn-secondary:hover{border-color:#999}
+
+  /* STATS */
+  .stats{background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .stats-inner{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));max-width:860px;margin:0 auto;text-align:center}
+  .stat{padding:3rem 2rem;border-right:1px solid var(--border)}
+  .stat:last-child{border-right:none}
+  .stat-num{font-size:2.4rem;font-weight:400;letter-spacing:-.02em;margin-bottom:.3rem;color:var(--accent)}
+  .stat-label{font-family:'Helvetica Neue',sans-serif;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+  /* SECTIONS */
+  section{padding:6rem 6%}
+  .section-label{font-family:'Helvetica Neue',sans-serif;font-size:.7rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:.8rem;text-align:center}
+  .section-title{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:400;text-align:center;margin-bottom:.8rem;letter-spacing:-.01em}
+  .section-sub{font-family:'Helvetica Neue',sans-serif;font-size:.92rem;color:var(--muted);text-align:center;max-width:520px;margin:0 auto 3.5rem}
+
+  /* ABOUT */
+  .about-inner{display:grid;grid-template-columns:1fr 1fr;gap:5rem;max-width:960px;margin:0 auto;align-items:center}
+  .about-badge{width:100%;max-width:340px;aspect-ratio:1;background:#f0f4f1;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid var(--border);margin:0 auto}
+  .about-badge-initials{font-size:4rem;font-weight:400;color:var(--accent);letter-spacing:-.02em;margin-bottom:.5rem}
+  .about-badge-name{font-family:'Helvetica Neue',sans-serif;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+  .about-badge-title{font-family:'Helvetica Neue',sans-serif;font-size:.72rem;letter-spacing:.08em;color:var(--muted);margin-top:.2rem}
+  .about-text .eyebrow{font-family:'Helvetica Neue',sans-serif;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem}
+  .about-text h2{font-size:1.9rem;font-weight:400;margin-bottom:1.2rem;letter-spacing:-.01em}
+  .about-text p{font-family:'Helvetica Neue',sans-serif;font-size:.9rem;color:var(--muted);line-height:1.8;margin-bottom:1rem}
+
+  /* COURSES */
+  .courses{background:#fff}
+  .courses-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;max-width:1060px;margin:0 auto}
+  .course-card{padding:2.2rem;border:1px solid var(--border);background:var(--bg);transition:border-color .3s,transform .2s}
+  .course-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+  .course-icon{font-size:1.5rem;margin-bottom:1rem}
+  .course-tag{font-family:'Helvetica Neue',sans-serif;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-bottom:.5rem}
+  .course-card h3{font-size:1.05rem;font-weight:400;margin-bottom:.5rem}
+  .course-card .course-desc{font-family:'Helvetica Neue',sans-serif;font-size:.84rem;color:var(--muted);margin-bottom:1.2rem;line-height:1.65}
+  .course-steps{list-style:none;margin-bottom:1.2rem}
+  .course-steps li{font-family:'Helvetica Neue',sans-serif;font-size:.8rem;color:var(--muted);padding:.35rem 0;border-bottom:1px solid var(--border);display:flex;gap:.6rem}
+  .course-steps li::before{content:counter(step);counter-increment:step;min-width:1.2rem;height:1.2rem;background:var(--accent);color:#fff;font-size:.65rem;display:flex;align-items:center;justify-content:center;margin-top:.1rem;flex-shrink:0}
+  .course-steps{counter-reset:step}
+  .course-time{font-family:'Helvetica Neue',sans-serif;font-size:.75rem;letter-spacing:.08em;color:var(--accent)}
+
+  /* WHAT YOU TAKE HOME */
+  .takehome{background:var(--bg)}
+  .takehome-inner{max-width:700px;margin:0 auto;text-align:center}
+  .takehome-list{list-style:none;display:flex;flex-direction:column;gap:1rem;margin-top:2.5rem;text-align:left}
+  .takehome-list li{font-family:'Helvetica Neue',sans-serif;font-size:.9rem;color:var(--muted);display:flex;gap:1rem;align-items:flex-start;padding:1.2rem 1.5rem;background:#fff;border:1px solid var(--border)}
+  .takehome-list li::before{content:"✦";color:var(--accent);flex-shrink:0;margin-top:.05rem}
+
+  /* PRICING */
+  .pricing{background:#fff}
+  .pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;max-width:820px;margin:0 auto}
+  .plan{padding:2.5rem;border:1px solid var(--border);background:var(--bg);position:relative}
+  .plan.featured{background:var(--accent);color:#fff;border-color:var(--accent)}
+  .plan-name{font-family:'Helvetica Neue',sans-serif;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:1.2rem;color:var(--muted)}
+  .plan.featured .plan-name{color:rgba(255,255,255,.65)}
+  .plan-price{font-size:2.6rem;font-weight:400;letter-spacing:-.02em;line-height:1}
+  .plan-per{font-family:'Helvetica Neue',sans-serif;font-size:.8rem;color:var(--muted);margin:.4rem 0 1.8rem}
+  .plan.featured .plan-per{color:rgba(255,255,255,.6)}
+  .plan-detail{font-family:'Helvetica Neue',sans-serif;font-size:.84rem;color:var(--muted);line-height:1.6;margin-bottom:2rem}
+  .plan.featured .plan-detail{color:rgba(255,255,255,.75)}
+  .plan-btn{width:100%;font-family:'Helvetica Neue',sans-serif;font-size:.78rem;letter-spacing:.08em;text-transform:uppercase;padding:.8rem;cursor:pointer;border:1px solid var(--ink);background:transparent;color:var(--ink);transition:all .2s}
+  .plan-btn:hover{background:var(--ink);color:#fff}
+  .plan.featured .plan-btn{border-color:rgba(255,255,255,.5);color:#fff}
+  .plan.featured .plan-btn:hover{background:rgba(255,255,255,.15)}
+  .pricing-note{font-family:'Helvetica Neue',sans-serif;font-size:.82rem;color:var(--muted);text-align:center;max-width:520px;margin:2.5rem auto 0;line-height:1.7}
+
+  /* CTA */
+  .cta-section{text-align:center;padding:8rem 6%;border-top:1px solid var(--border)}
+  .cta-section h2{font-size:clamp(1.8rem,3.5vw,3rem);font-weight:400;margin-bottom:1rem;letter-spacing:-.01em}
+  .cta-section p{font-family:'Helvetica Neue',sans-serif;color:var(--muted);margin-bottom:2.5rem;font-size:.92rem}
+  .contact-info{display:flex;gap:2.5rem;justify-content:center;flex-wrap:wrap;margin-top:2.5rem}
+  .contact-item{font-family:'Helvetica Neue',sans-serif;font-size:.85rem;color:var(--muted);display:flex;align-items:center;gap:.5rem}
+  .contact-item a{color:var(--ink);text-decoration:none}
+  .contact-item a:hover{text-decoration:underline}
+
+  /* FOOTER */
+  footer{padding:2.5rem 6%;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem}
+  .footer-logo{font-size:.88rem;letter-spacing:.08em;text-transform:uppercase}
+  .footer-copy{font-family:'Helvetica Neue',sans-serif;font-size:.75rem;color:var(--muted);font-style:italic}
+
+  @media(max-width:700px){
+    .about-inner{grid-template-columns:1fr}
+    .nav-links{display:none}
+    .stat{border-right:none;border-bottom:1px solid var(--border)}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">
+    <span class="logo-main">Financial Literacy Lab</span>
+    <span class="logo-sub">Real Money Skills. Real Life Results.</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#courses">Courses</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Book a Session</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Los Angeles, California</p>
+  <h1>Real money skills for<br><em>real life</em></h1>
+  <p class="hero-tagline">Financial literacy isn't taught in school — but it should be. We close that gap with hands-on, guided sessions you can use starting today.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="document.getElementById('courses').scrollIntoView()">Explore Our Courses</button>
+    <button class="btn-secondary" onclick="document.getElementById('contact').scrollIntoView()">Book a Session</button>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="stats-inner">
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">Hands-on courses</div></div>
+    <div class="stat"><div class="stat-num">10+</div><div class="stat-label">Years experience</div></div>
+    <div class="stat"><div class="stat-num">$20</div><div class="stat-label">Starting rate</div></div>
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Practical skills</div></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div>
+      <div class="about-badge" style="padding:0;overflow:hidden;background:#f0f4f1">
+        <img src="https://media.licdn.com/dms/image/v2/D5603AQH1lNQRzliUcQ/profile-displayphoto-crop_800_800/B56Zyd7kfdI0AI-/0/1772176166528?e=1774483200&v=beta&t=Uc3JMWcU-BdNFV4BRB1jkhSyx2iXPiHJTkYTI-gkKAw" alt="Sergio Ruelas" style="width:100%;height:100%;object-fit:cover;display:block"/>
+      </div>
+
+    </div>
+    <div class="about-text">
+      <p class="eyebrow">Your Instructor</p>
+      <h2>Precision. Problem-solving. Plain language.</h2>
+      <p>Sergio Ruelas brings over 10 years of experience as an aerospace and medical manufacturing engineer — a career built on precision, problem-solving, and attention to detail.</p>
+      <p>Those same principles drive every Financial Literacy Lab session. Sergio believes that understanding your finances and future shouldn't be complicated, and he's here to make sure it isn't.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COURSES -->
+<section id="courses" class="courses">
+  <p class="section-label">What we teach</p>
+  <h2 class="section-title">The Six Labs</h2>
+  <p class="section-sub">Every session comes with take-home materials — key notes and a step-by-step recap so you can do it on your own going forward.</p>
+  <div class="courses-grid">
+
+    <div class="course-card">
+      <div class="course-icon">🧾</div>
+      <div class="course-tag">Course 1</div>
+      <h3>Tax Lab</h3>
+      <p class="course-desc">File Your Taxes With Confidence — walk away with a completed return and the skills to file every year on your own.</p>
+      <ol class="course-steps">
+        <li>Understand your W-2, 1099s, and key tax documents</li>
+        <li>File your federal and California state return step-by-step</li>
+        <li>Identify deductions and credits you may be missing</li>
+      </ol>
+      <div class="course-time">⏱ 2 hours</div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">💸</div>
+      <div class="course-tag">Course 2</div>
+      <h3>Budget Lab</h3>
+      <p class="course-desc">Build a Budget That Actually Works — stop wondering where your money goes and take control of it.</p>
+      <ol class="course-steps">
+        <li>Calculate your true monthly income vs. expenses</li>
+        <li>Apply a proven budgeting framework that fits your lifestyle</li>
+        <li>Create a personalized monthly budget you'll actually stick to</li>
+      </ol>
+      <div class="course-time">⏱ 1.5 hours</div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">📊</div>
+      <div class="course-tag">Course 3</div>
+      <h3>Credit Lab</h3>
+      <p class="course-desc">Decode Your Credit & Kill Your Debt — your credit score affects your rent, car, and mortgage. Let's fix it together.</p>
+      <ol class="course-steps">
+        <li>Understand how your credit score is calculated</li>
+        <li>Review your credit report and identify errors or risks</li>
+        <li>Build a 90-day action plan to raise your score</li>
+        <li>Create a personalized debt payoff plan using avalanche or snowball method</li>
+      </ol>
+      <div class="course-time">⏱ 1.5 hours</div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">📈</div>
+      <div class="course-tag">Course 4</div>
+      <h3>Investing Lab</h3>
+      <p class="course-desc">Put Your Money to Work — you don't need to be rich to start investing. You just need a plan.</p>
+      <ol class="course-steps">
+        <li>Distinguish between savings, brokerage, and retirement accounts</li>
+        <li>Understand stocks, ETFs, and index funds in plain language</li>
+        <li>Set up and fund your first investment account</li>
+      </ol>
+      <div class="course-time">⏱ 2 hours</div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">🚗</div>
+      <div class="course-tag">Course 5</div>
+      <h3>Car Lab</h3>
+      <p class="course-desc">Buy Your Next Car the Smart Way — don't walk into a dealership unprepared. Know exactly what you're signing.</p>
+      <ol class="course-steps">
+        <li>Understand the true cost of a car — price, taxes, registration, insurance</li>
+        <li>Compare buying vs. leasing and understand how credit impacts your rate</li>
+        <li>Navigate the dealership, negotiate confidently, and avoid costly upsells</li>
+      </ol>
+      <div class="course-time">⏱ 2 hours</div>
+    </div>
+
+    <div class="course-card">
+      <div class="course-icon">🎓</div>
+      <div class="course-tag">Course 6</div>
+      <h3>Career Lab</h3>
+      <p class="course-desc">Plan Your Major, Build Your Future — starting college, switching careers, or climbing the ladder. Let's map your path.</p>
+      <ol class="course-steps">
+        <li>Explore majors and careers aligned with your skills and income goals</li>
+        <li>Build a professional resume and craft a cover letter that gets noticed</li>
+        <li>Prepare for interviews with proven techniques and practice scenarios</li>
+        <li>Develop a career advancement strategy to grow or pivot</li>
+      </ol>
+      <div class="course-time">⏱ 2 hours</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- TAKE HOME -->
+<section class="takehome">
+  <p class="section-label">What you receive</p>
+  <h2 class="section-title">What You Take Home</h2>
+  <div class="takehome-inner">
+    <ul class="takehome-list">
+      <li>Clear, jargon-free reference materials tailored to your session</li>
+      <li>Key notes outlining every step so you can repeat the process independently</li>
+      <li>Resources and tools to keep building on what you learned</li>
+    </ul>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section id="pricing" class="pricing">
+  <p class="section-label">Invest in yourself</p>
+  <h2 class="section-title">Simple, Accessible Pricing</h2>
+  <p class="section-sub">Financial education should be accessible to everyone — especially those who need it most.</p>
+  <div class="pricing-grid">
+
+    <div class="plan">
+      <div class="plan-name">Personal or Couple</div>
+      <div class="plan-price">$60</div>
+      <div class="plan-per">per hour</div>
+      <div class="plan-detail">One-on-one or couples sessions tailored entirely to your personal financial situation.</div>
+      <button class="plan-btn">Book Now</button>
+    </div>
+
+    <div class="plan featured">
+      <div class="plan-name">Group Session</div>
+      <div class="plan-price">$200</div>
+      <div class="plan-per">per 2-hour session</div>
+      <div class="plan-detail">Perfect for friends, family, coworkers, or a classroom setting. Split the cost, multiply the value.</div>
+      <button class="plan-btn">Book Now</button>
+    </div>
+
+    <div class="plan">
+      <div class="plan-name">Student or Single Parent</div>
+      <div class="plan-price">$20</div>
+      <div class="plan-per">per hour</div>
+      <div class="plan-detail">Discounted rate for those who need it most. Proof of enrollment or single-parent status required.</div>
+      <button class="plan-btn">Book Now</button>
+    </div>
+
+  </div>
+  <p class="pricing-note">We believe nobody should have to figure this out alone. Reach out if cost is a barrier — let's talk.</p>
+</section>
+
+<!-- CTA / CONTACT -->
+<section class="cta-section" id="contact">
+  <p class="section-label">Let's get started</p>
+  <h2>Ready to take control of your finances?</h2>
+  <p>Book your session today and take the first step toward financial confidence.</p>
+  <button class="btn-primary">Book a Session</button>
+  <div class="contact-info">
+    <div class="contact-item">📍 Los Angeles, California</div>
+    <div class="contact-item">📧 <a href="mailto:ruelas.sergio@gmail.com">ruelas.sergio@gmail.com</a></div>
+    <div class="contact-item">📱 <a href="tel:8189879231">(818) 987-9231</a></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Financial Literacy Lab LLC</div>
+  <div class="footer-copy">Because nobody should have to figure this out alone.</div>
+  <div style="font-family:'Helvetica Neue',sans-serif;font-size:.75rem;color:var(--muted)">© 2026 Financial Literacy Lab LLC</div>
+</footer>
+
+</body>
+</html>
